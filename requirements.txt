@@ -1,7 +1,5 @@
 fastapi
 uvicorn
-jinja2
 python-multipart
-qdrant-client
-sentence-transformers
-PyMuPDF
+pdfplumber
+jinja2
