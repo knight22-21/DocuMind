@@ -2,10 +2,17 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.requests import Request
+from dotenv import load_dotenv
+import os
+
+load_dotenv() 
 
 from backend.api.routes.upload import router as upload_router
 
 app = FastAPI()
+
+from backend.api.routes.debug import router as debug_router
+app.include_router(debug_router, prefix="/api")
 
 app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
 templates = Jinja2Templates(directory="frontend/templates")

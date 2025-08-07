@@ -3,3 +3,8 @@ uvicorn
 python-multipart
 pdfplumber
 jinja2
+qdrant-client
+sentence-transformers
+httpx
+python-dotenv
+huggingface_hub
