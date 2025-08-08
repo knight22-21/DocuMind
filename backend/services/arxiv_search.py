@@ -12,17 +12,21 @@ def search_arxiv(query: str, max_results=3):
     for entry in root.findall('atom:entry', ns):
         title = entry.find('atom:title', ns).text.strip()
         summary = entry.find('atom:summary', ns).text.strip()
-        
-        # FIXED: Safely access 'title' attribute using .get()
-        pdf_link = next(
+
+        id_url = entry.find('atom:id', ns).text  # e.g., http://arxiv.org/abs/2106.01354
+        arxiv_id = id_url.split('/')[-1]         # Extract 2106.01354
+
+        pdf_url = next(
             (l.attrib['href'] for l in entry.findall('atom:link', ns) if l.attrib.get('title') == 'pdf'),
-            None
+            f"https://arxiv.org/pdf/{arxiv_id}.pdf"
         )
 
         results.append({
             "title": title,
             "summary": summary,
-            "pdf_url": pdf_link
+            "arxiv_id": arxiv_id,
+            "pdf_url": pdf_url
         })
+
 
     return results

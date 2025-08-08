@@ -38,7 +38,11 @@ def download_and_process(req: DownloadRequest):
     init_collection(dim=len(embeddings[0]))
     add_documents(chunks, embeddings, metadata={"source": filename})
 
-    return {"filename": filename, "chunks": len(chunks)}
+    return {
+        "filename": filename,
+        "chunks": len(chunks),
+        "pdf_url": pdf_url
+    }
 
 
 
