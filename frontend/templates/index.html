@@ -27,5 +27,25 @@
       output.textContent = data.text_preview;
     };
   </script>
+  <hr>
+  <h2>Ask a Question</h2>
+  <input type="text" id="userQuery" placeholder="Ask about the paper..." size="50"/>
+  <button onclick="askQuery()">Submit</button>
+  <pre id="answerOutput"></pre>
+
+  <script>
+    async function askQuery() {
+      const query = document.getElementById("userQuery").value;
+      const res = await fetch("/api/query", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query })
+      });
+      const data = await res.json();
+      document.getElementById("answerOutput").textContent =
+        `Answer: ${data.answer}\n\nSources: ${data.sources.join(', ')}`;
+    }
+  </script>
+
 </body>
 </html>

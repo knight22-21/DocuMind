@@ -8,3 +8,4 @@ sentence-transformers
 httpx
 python-dotenv
 huggingface_hub
+openai
