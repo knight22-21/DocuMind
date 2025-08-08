@@ -46,6 +46,33 @@
         `Answer: ${data.answer}\n\nSources: ${data.sources.join(', ')}`;
     }
   </script>
+  <details>
+    <summary>View Citations</summary>
+    <ul id="citationsList"></ul>
+  </details>
+
+  <script>
+    async function askQuery() {
+      const query = document.getElementById("userQuery").value;
+      const res = await fetch("/api/query", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query })
+      });
+      const data = await res.json();
+      document.getElementById("answerOutput").textContent =
+        `Answer: ${data.answer}\n\nSources: ${data.sources.join(', ')}`;
+
+      const list = document.getElementById("citationsList");
+      list.innerHTML = "";
+      data.citations.forEach(c => {
+        const li = document.createElement("li");
+        li.textContent = `[${c.score.toFixed(3)}] ${c.text.slice(0, 150)}... (source: ${c.source})`;
+        list.appendChild(li);
+      });
+    }
+  </script>
+
 
 </body>
 </html>

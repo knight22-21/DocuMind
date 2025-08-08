@@ -20,4 +20,8 @@ def query_paper(request: QueryRequest):
 
     answer = generate_answer(request.query, context_texts)
 
-    return {"answer": answer, "sources": list(set(sources))}
+    return {
+        "answer": answer,
+        "sources": list(set(sources)),
+        "citations": chunks  # raw chunks: includes text, score, and source
+    }

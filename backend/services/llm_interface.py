@@ -33,3 +33,22 @@ Question:
     )
 
     return response.choices[0].message.content.strip()
+
+
+def summarize_text(text: str, max_length: int = 3000) -> str:
+    prompt = f"""Summarize the following research paper text into key points.
+
+{text[:max_length]}
+
+Summary:
+"""
+    response = client.chat.completions.create(
+        model="llama3-70b-8192",
+        messages=[
+            {"role": "system", "content": "You are a helpful summarizer."},
+            {"role": "user", "content": prompt}
+        ],
+        temperature=0.5,
+        max_tokens=500
+    )
+    return response.choices[0].message.content.strip()

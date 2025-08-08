@@ -4,6 +4,7 @@ from backend.core.config import UPLOAD_DIR
 from backend.rag.chunker import chunk_text
 from backend.rag.embedder import Embedder
 from backend.rag.qdrant_client import init_collection, add_documents
+from backend.services.llm_interface import summarize_text
 import shutil
 
 router = APIRouter()
@@ -28,8 +29,11 @@ async def upload_pdf(file: UploadFile = File(...)):
     init_collection(dim=len(embeddings[0]))
     add_documents(chunks, embeddings, metadata={"source": file.filename})
 
+    summary = summarize_text(text)
+
     return {
         "filename": file.filename,
         "chunks_uploaded": len(chunks),
+        "summary": summary,
         "preview": chunks[0][:300]
     }
