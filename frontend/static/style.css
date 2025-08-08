@@ -1,7 +1,151 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 40px;
+/* Reset some default styles */
+* {
+  box-sizing: border-box;
 }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 40px;
+  background-color: #f5f7fa;
+  color: #222;
+}
+
 h2 {
-  color: #333;
+  color: #1f2937; /* dark slate */
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #3b82f6; /* blue underline */
+  padding-bottom: 0.25rem;
+}
+
+form {
+  margin-bottom: 1rem;
+}
+
+input[type="file"],
+input[type="text"] {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #cbd5e1; /* light gray */
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+  margin-bottom: 0.5rem;
+}
+
+input[type="file"]:focus,
+input[type="text"]:focus {
+  outline: none;
+  border-color: #3b82f6; /* blue focus */
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+button {
+  background-color: #3b82f6; /* blue */
+  color: white;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 0.5rem;
+}
+
+button:hover {
+  background-color: #2563eb; /* darker blue */
+}
+
+pre {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0; /* very light gray */
+  max-width: 700px;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  font-family: Consolas, monospace;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+#pdf-link-container {
+  margin-top: 20px;
+  display: none;
+}
+
+/* Styling for the "Open PDF" button */
+#open-pdf {
+  display: inline-block;
+  background-color: #3b82f6; /* blue */
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border: none;
+  text-decoration: none; /* Remove underline if any */
+  user-select: none;
+}
+
+#open-pdf:hover {
+  background-color: #2563eb; /* darker blue */
+}
+
+hr {
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  margin: 2rem 0;
+  max-width: 700px;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+  max-width: 700px;
+}
+
+ul#arxivResults li {
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+ul#arxivResults li b {
+  font-size: 1.1rem;
+  color: #1e293b;
+}
+
+ul#arxivResults li button {
+  margin-top: 0.5rem;
+  background-color: #10b981; /* green */
+}
+
+ul#arxivResults li button:hover {
+  background-color: #059669; /* darker green */
+}
+
+details summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+#citationsList li {
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: #4b5563;
+  max-width: 700px;
+}
+
+input, button {
+  font-family: inherit;
 }

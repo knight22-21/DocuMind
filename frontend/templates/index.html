@@ -1,45 +1,99 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Research Paper Assistant</title>
-  <link rel="stylesheet" href="/static/style.css" />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Flowbite CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.7.0/flowbite.min.css" rel="stylesheet" />
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen flex flex-col items-center p-6">
 
-  <h2>Upload a Research Paper (PDF)</h2>
-  <form id="uploadForm" enctype="multipart/form-data">
-    <input type="file" name="file" />
-    <button type="submit">Upload</button>
-  </form>
+  <div class="w-full max-w-4xl space-y-10">
 
-  <pre id="output"></pre>
+    <!-- Upload Section -->
+    <section class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-800">📤 Upload a Research Paper (PDF)</h2>
+      <form id="uploadForm" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-4">
+        <input type="file" name="file" accept="application/pdf" class="block w-full sm:w-auto text-gray-700 border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700 transition">Upload</button>
+      </form>
+      <pre id="output" class="mt-4 whitespace-pre-wrap text-gray-700"></pre>
 
-  <!-- ✅ Open in New Tab Only -->
-  <div id="pdf-link-container" style="margin-top: 20px; display: none;">
-    <a id="open-pdf" href="#" target="_blank">📄 Open PDF in new tab</a>
+      <div id="pdf-link-container" class="mt-4 hidden">
+        <button
+          id="open-pdf"
+          type="button"
+          class="inline-flex items-center bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onclick="window.open(this.dataset.url, '_blank')"
+          data-url="#"
+        >
+          📄 Open PDF in new tab
+        </button>
+      </div>
+    </section>
+
+    <!-- arXiv Search Section -->
+    <section class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-800">🔍 Search arXiv Papers</h2>
+      <div class="flex gap-3 mb-4">
+        <input
+          type="text"
+          id="arxivInput"
+          placeholder="e.g., LLMs, computer vision"
+          class="flex-grow border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onkeydown="if(event.key==='Enter'){ event.preventDefault(); searchArxiv(); }"
+        />
+        <button
+          onclick="searchArxiv()"
+          class="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700 transition"
+        >Search</button>
+      </div>
+      <ul id="arxivResults" class="space-y-4 text-gray-700"></ul>
+    </section>
+
+    <!-- Ask a Question Section -->
+    <section class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-800">🤖 Ask a Question</h2>
+      <div class="flex gap-3 mb-4">
+        <input
+          type="text"
+          id="userQuery"
+          placeholder="Ask about the paper..."
+          class="flex-grow border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          onkeydown="if(event.key==='Enter'){ event.preventDefault(); askQuery(); }"
+        />
+        <button
+          onclick="askQuery()"
+          class="bg-purple-600 text-white px-5 py-2 rounded-md hover:bg-purple-700 transition"
+        >Submit</button>
+      </div>
+      <pre id="answerOutput" class="whitespace-pre-wrap text-gray-700"></pre>
+
+      <details class="mt-6 bg-gray-100 p-4 rounded-md">
+        <summary class="cursor-pointer font-semibold text-gray-800">View Citations</summary>
+        <ul id="citationsList" class="mt-2 list-disc list-inside text-gray-700"></ul>
+      </details>
+    </section>
+
   </div>
 
-  <hr>
-
-  <h2>Search arXiv Papers</h2>
-  <input type="text" id="arxivInput" placeholder="e.g., LLMs, computer vision" size="50">
-  <button onclick="searchArxiv()">Search</button>
-  <ul id="arxivResults"></ul>
-
-  <hr>
-
-  <h2>Ask a Question</h2>
-  <input type="text" id="userQuery" placeholder="Ask about the paper..." size="50"/>
-  <button onclick="askQuery()">Submit</button>
-  <pre id="answerOutput"></pre>
-
-  <details>
-    <summary>View Citations</summary>
-    <ul id="citationsList"></ul>
-  </details>
+  <!-- Flowbite JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.7.0/flowbite.min.js"></script>
+  <!-- Your JS -->
   <script src="/static/main.js"></script>
-  
 
+  <script>
+    // Update the open-pdf button URL dynamically
+    function updateOpenPdfButton(url) {
+      const btn = document.getElementById('open-pdf');
+      btn.dataset.url = url;
+      btn.classList.remove('hidden');
+      document.getElementById('pdf-link-container').classList.remove('hidden');
+    }
+  </script>
 </body>
 </html>
