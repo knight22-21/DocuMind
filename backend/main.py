@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from fastapi.requests import Request
+from fastapi import Request
 from dotenv import load_dotenv
 import os
 from backend.api.routes.query import router as query_router
