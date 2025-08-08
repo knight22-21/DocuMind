@@ -11,6 +11,11 @@
     <button type="submit">Upload</button>
   </form>
   <pre id="output"></pre>
+  <h2>Search arXiv Papers</h2>
+  <input type="text" id="arxivInput" placeholder="e.g., LLMs, computer vision" size="50">
+  <button onclick="searchArxiv()">Search</button>
+  <ul id="arxivResults"></ul>
+
 
   <script>
     const form = document.getElementById("uploadForm");
@@ -72,6 +77,38 @@
       });
     }
   </script>
+  <script>
+    async function searchArxiv() {
+      const query = document.getElementById("arxivInput").value;
+      const res = await fetch(`/api/arxiv?q=${encodeURIComponent(query)}`);
+      const data = await res.json();
+
+      const list = document.getElementById("arxivResults");
+      list.innerHTML = "";
+      data.results.forEach(paper => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <b>${paper.title}</b><br>
+          ${paper.summary}<br>
+          <button onclick="addArxivPaper('${paper.pdf_url}')">Import</button>
+          <hr>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    async function addArxivPaper(pdfUrl) {
+      const res = await fetch("/api/arxiv/download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: pdfUrl })
+      });
+      const data = await res.json();
+      alert("✅ " + data.status + "\nImported: " + data.filename + "\nChunks: " + data.chunks);
+    }
+  </script>
+
+
 
 
 </body>

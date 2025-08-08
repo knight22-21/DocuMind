@@ -12,7 +12,13 @@ def search_arxiv(query: str, max_results=3):
     for entry in root.findall('atom:entry', ns):
         title = entry.find('atom:title', ns).text.strip()
         summary = entry.find('atom:summary', ns).text.strip()
-        pdf_link = next((l.attrib['href'] for l in entry.findall('atom:link', ns) if l.attrib['title'] == 'pdf'), None)
+        
+        # FIXED: Safely access 'title' attribute using .get()
+        pdf_link = next(
+            (l.attrib['href'] for l in entry.findall('atom:link', ns) if l.attrib.get('title') == 'pdf'),
+            None
+        )
+
         results.append({
             "title": title,
             "summary": summary,
