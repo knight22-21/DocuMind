@@ -31,9 +31,11 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     summary = summarize_text(text)
 
+    # 👇 Return the file preview URL along with everything else
     return {
         "filename": file.filename,
         "chunks_uploaded": len(chunks),
         "summary": summary,
-        "preview": chunks[0][:300]
+        "preview": chunks[0][:300],
+        "pdf_url": f"/uploads/{file.filename}"  # 👈 This enables frontend preview
     }

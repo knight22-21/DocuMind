@@ -5,17 +5,39 @@
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
+
   <h2>Upload a Research Paper (PDF)</h2>
   <form id="uploadForm" enctype="multipart/form-data">
     <input type="file" name="file" />
     <button type="submit">Upload</button>
   </form>
+
   <pre id="output"></pre>
+
+  <!-- ✅ PDF Preview Section -->
+  <div id="pdf-preview" style="margin-top: 20px; display: none;">
+    <h3>PDF Preview:</h3>
+    <iframe id="pdf-frame" width="100%" height="600px" style="border: 1px solid #ccc;"></iframe>
+  </div>
+
+  <hr>
+
   <h2>Search arXiv Papers</h2>
   <input type="text" id="arxivInput" placeholder="e.g., LLMs, computer vision" size="50">
   <button onclick="searchArxiv()">Search</button>
   <ul id="arxivResults"></ul>
 
+  <hr>
+
+  <h2>Ask a Question</h2>
+  <input type="text" id="userQuery" placeholder="Ask about the paper..." size="50"/>
+  <button onclick="askQuery()">Submit</button>
+  <pre id="answerOutput"></pre>
+
+  <details>
+    <summary>View Citations</summary>
+    <ul id="citationsList"></ul>
+  </details>
 
   <script>
     const form = document.getElementById("uploadForm");
@@ -30,33 +52,13 @@
       });
       const data = await res.json();
       output.textContent = data.text_preview;
+
+      // ✅ Show the PDF preview
+      const pdfFrame = document.getElementById("pdf-frame");
+      pdfFrame.src = data.pdf_url;
+      document.getElementById("pdf-preview").style.display = "block";
     };
-  </script>
-  <hr>
-  <h2>Ask a Question</h2>
-  <input type="text" id="userQuery" placeholder="Ask about the paper..." size="50"/>
-  <button onclick="askQuery()">Submit</button>
-  <pre id="answerOutput"></pre>
 
-  <script>
-    async function askQuery() {
-      const query = document.getElementById("userQuery").value;
-      const res = await fetch("/api/query", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query })
-      });
-      const data = await res.json();
-      document.getElementById("answerOutput").textContent =
-        `Answer: ${data.answer}\n\nSources: ${data.sources.join(', ')}`;
-    }
-  </script>
-  <details>
-    <summary>View Citations</summary>
-    <ul id="citationsList"></ul>
-  </details>
-
-  <script>
     async function askQuery() {
       const query = document.getElementById("userQuery").value;
       const res = await fetch("/api/query", {
@@ -76,8 +78,7 @@
         list.appendChild(li);
       });
     }
-  </script>
-  <script>
+
     async function searchArxiv() {
       const query = document.getElementById("arxivInput").value;
       const res = await fetch(`/api/arxiv?q=${encodeURIComponent(query)}`);
@@ -107,9 +108,6 @@
       alert("✅ " + data.status + "\nImported: " + data.filename + "\nChunks: " + data.chunks);
     }
   </script>
-
-
-
 
 </body>
 </html>
