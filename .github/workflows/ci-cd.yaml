@@ -34,7 +34,7 @@ jobs:
 
       - name: Run tests with coverage
         run: |
-          pytest backend/tests --cov=backend --cov-report=term --cov-fail-under=80
+          PYTHONPATH=. pytest backend/tests --cov=backend --cov-report=term --cov-fail-under=80
 
   deploy:
     runs-on: ubuntu-latest
