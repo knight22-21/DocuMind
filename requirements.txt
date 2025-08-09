@@ -9,3 +9,4 @@ httpx
 python-dotenv
 huggingface_hub
 openai
+pytest
