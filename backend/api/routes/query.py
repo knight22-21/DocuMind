@@ -5,8 +5,10 @@ from backend.services.llm_interface import generate_answer
 
 router = APIRouter()
 
+
 class QueryRequest(BaseModel):
     query: str
+
 
 @router.post("/query")
 def query_paper(request: QueryRequest):
@@ -23,5 +25,5 @@ def query_paper(request: QueryRequest):
     return {
         "answer": answer,
         "sources": list(set(sources)),
-        "citations": chunks  # raw chunks: includes text, score, and source
+        "citations": chunks,  # raw chunks: includes text, score, and source
     }

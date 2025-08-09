@@ -14,29 +14,36 @@ QDRANT_API_KEY = os.getenv("QDRANT_API_KEY")
 
 COLLECTION_NAME = "research_papers"
 
-# Initialize client 
+# Initialize client
 client = QdrantClient(
-    url=QDRANT_URL,           
-    api_key=QDRANT_API_KEY    
+    url=QDRANT_URL,
+    api_key=QDRANT_API_KEY,
 )
+
 
 def init_collection(dim: int):
     existing = client.get_collections()
     if COLLECTION_NAME not in [c.name for c in existing.collections]:
+        vectors_config = VectorParams(
+            size=dim,
+            distance=Distance.COSINE,
+        )
         client.recreate_collection(
             collection_name=COLLECTION_NAME,
-            vectors_config=VectorParams(size=dim, distance=Distance.COSINE)
+            vectors_config=vectors_config,
         )
 
-def add_documents(texts: List[str], embeddings: List[List[float]], metadata: dict):
+
+def add_documents(
+    texts: List[str],
+    embeddings: List[List[float]],
+    metadata: dict,
+):
     points = [
         PointStruct(
             id=str(uuid4()),
             vector=embedding,
-            payload={
-                "text": text,
-                "source": metadata["source"]
-            }
+            payload={"text": text, "source": metadata["source"]},
         )
         for text, embedding in zip(texts, embeddings)
     ]

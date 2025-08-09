@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Query
-from backend.services.arxiv_search import search_arxiv
-from fastapi import Request
 from pydantic import BaseModel
-import requests
 from pathlib import Path
+import requests
+
+from backend.services.arxiv_search import search_arxiv
 from backend.services.pdf_reader import extract_text_from_pdf
 from backend.rag.chunker import chunk_text
 from backend.rag.embedder import Embedder
@@ -11,8 +11,10 @@ from backend.rag.qdrant_client import init_collection, add_documents
 
 router = APIRouter()
 
+
 class DownloadRequest(BaseModel):
     url: str
+
 
 @router.post("/arxiv/download")
 def download_and_process(req: DownloadRequest):
@@ -20,7 +22,7 @@ def download_and_process(req: DownloadRequest):
     filename = pdf_url.split("/")[-1]
 
     upload_dir = Path("backend") / "uploads"
-    upload_dir.mkdir(parents=True, exist_ok=True) 
+    upload_dir.mkdir(parents=True, exist_ok=True)
 
     file_path = upload_dir / filename
 
@@ -41,10 +43,8 @@ def download_and_process(req: DownloadRequest):
     return {
         "filename": filename,
         "chunks": len(chunks),
-        "pdf_url": pdf_url
+        "pdf_url": pdf_url,
     }
-
-
 
 
 @router.get("/arxiv")

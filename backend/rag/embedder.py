@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+
 class Embedder:
     def __init__(self):
         self.client = InferenceClient(token=os.getenv("hf_api_key"))

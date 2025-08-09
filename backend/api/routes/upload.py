@@ -10,6 +10,7 @@ import shutil
 router = APIRouter()
 embedder = Embedder()
 
+
 @router.post("/upload")
 async def upload_pdf(file: UploadFile = File(...)):
     file_path = UPLOAD_DIR / file.filename
@@ -37,5 +38,5 @@ async def upload_pdf(file: UploadFile = File(...)):
         "chunks_uploaded": len(chunks),
         "summary": summary,
         "preview": chunks[0][:300],
-        "pdf_url": f"/uploads/{file.filename}"  # 👈 This enables frontend preview
+        "pdf_url": f"/uploads/{file.filename}",  # Enables frontend preview
     }

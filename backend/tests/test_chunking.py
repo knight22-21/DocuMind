@@ -1,5 +1,6 @@
 from backend.rag.chunker import chunk_pdf_text
 
+
 def test_chunk_pdf_text():
     text = "This is a test. " * 50
     chunks = chunk_pdf_text(text, chunk_size=50, overlap=10)
