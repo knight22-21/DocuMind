@@ -2,6 +2,7 @@ import io
 import pytest
 from fastapi.testclient import TestClient
 from backend.main import app
+from reportlab.pdfgen import canvas
 
 
 @pytest.fixture(scope="module")
@@ -11,5 +12,9 @@ def client():
 
 @pytest.fixture
 def sample_pdf_file():
-    pdf_content = b"%PDF-1.4\n%Test PDF content"
-    return {"file": ("test.pdf", io.BytesIO(pdf_content), "application/pdf")}
+    buffer = io.BytesIO()
+    c = canvas.Canvas(buffer)
+    c.drawString(100, 750, "Hello, this is a test PDF.")
+    c.save()
+    buffer.seek(0)
+    return {"file": ("test.pdf", buffer, "application/pdf")}

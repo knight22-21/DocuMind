@@ -1,10 +1,11 @@
 from unittest.mock import patch
 
 
-@patch("backend.rag.retriever.retrieve_relevant_chunks")
+# Test when relevant chunks are found and an answer is generated
+@patch("backend.rag.embedder.Embedder.encode")
 @patch("backend.services.llm_interface.generate_answer")
-@patch("backend.services.embedder.Embedder.encode")
-def test_query_with_results(mock_encode, mock_generate, mock_retrieve, client):
+@patch("backend.rag.retriever.retrieve_relevant_chunks")
+def test_query_with_results(mock_retrieve, mock_generate, mock_encode, client):
     mock_encode.return_value = [[0.1] * 384]
     mock_retrieve.return_value = [
         {"text": "Sample chunk text", "source": "paper1.pdf", "page": 2}
@@ -20,10 +21,11 @@ def test_query_with_results(mock_encode, mock_generate, mock_retrieve, client):
     assert "sources" in data
 
 
+# Test when no relevant chunks are found
+@patch("backend.rag.embedder.Embedder.encode")
 @patch("backend.services.llm_interface.generate_answer")
 @patch("backend.rag.retriever.retrieve_relevant_chunks", return_value=[])
-@patch("backend.services.embedder.Embedder.encode")
-def test_query_no_results(mock_encode, mock_retrieve, mock_generate, client):
+def test_query_no_results(mock_retrieve, mock_generate, mock_encode, client):
     mock_encode.return_value = [[0.1] * 384]
     mock_generate.return_value = "No relevant context found."
 
