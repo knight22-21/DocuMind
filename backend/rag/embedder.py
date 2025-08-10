@@ -7,7 +7,7 @@ load_dotenv()
 
 class Embedder:
     def __init__(self):
-        self.client = InferenceClient(token=os.getenv("hf_api_key"))
+        self.client = InferenceClient(token=os.getenv("HF_API_KEY"))
         # Use a model that supports embeddings via feature_extraction
         self.model = "sentence-transformers/all-MiniLM-L6-v2"
 
