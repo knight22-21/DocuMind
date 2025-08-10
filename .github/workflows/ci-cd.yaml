@@ -46,5 +46,7 @@ jobs:
     needs: lint-and-test
     if: github.ref == 'refs/heads/main'
     steps:
-      - name: Deploy Application
-        run: echo "Deployment step goes here"
+      - name: Trigger Render Deployment
+        run: |
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+
