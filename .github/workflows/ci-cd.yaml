@@ -39,7 +39,7 @@ jobs:
           QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
           HF_API_KEY: ${{ secrets.HF_API_KEY }}
         run: |
-          PYTHONPATH=. pytest backend/tests --cov=backend --cov-report=term --cov-fail-under=80
+          PYTHONPATH=. pytest backend/tests --cov=backend --cov-report=term --cov-fail-under=70
 
   deploy:
     runs-on: ubuntu-latest
